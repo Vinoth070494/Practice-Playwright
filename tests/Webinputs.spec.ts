@@ -9,10 +9,9 @@ test("1. Web inputs ", async({page}) => {
      const Dateinput:Locator=page.locator('#input-date')
      await expect (Dateinput).toBeVisible
      Dateinput.fill('2026-03-30');
-     await page.waitForTimeout(5000)
-    // await page.click("btn-clear-inputs");
+     await page.waitForTimeout(2000)
        await page.getByRole("button", { name: 'clear inputs' }).click();
-    // await page.waitForTimeout (5000)
+   
 
  await page.pause();
 });
