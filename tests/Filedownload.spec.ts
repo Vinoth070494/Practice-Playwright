@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
  
-test('File Upload Test', async ({ page }) => {
+test('File download Test', async ({ page }) => {
  
   await page.goto('https://practice.expandtesting.com/download');
 

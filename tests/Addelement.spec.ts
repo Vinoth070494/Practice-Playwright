@@ -12,4 +12,4 @@ const deleteButton = page.getByRole('button', { name: 'Delete' });
     await expect(deleteButton).toHaveCount(0);
 await page.pause();
 
-});
+}); 
