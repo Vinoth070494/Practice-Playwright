@@ -1,5 +1,6 @@
 import { defineConfig, devices } from '@playwright/test';
 
+
 /**
  * Read environment variables from file.
  * https://github.com/motdotla/dotenv
@@ -27,6 +28,8 @@ export default defineConfig({
   
 use: {
   headless: false,
+  video:"on",
+  screenshot:"off",
   viewport: null,
   launchOptions: {
     args: ['--start-maximized']
