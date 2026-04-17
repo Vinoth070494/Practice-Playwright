@@ -4,6 +4,7 @@ export class RemittanceForm {
   constructor(private page: Page) {}
 
   async fillForm() {
+     await this.page.waitForSelector;
     await this.page.locator("#entityBankName").click();
     await this.page.getByRole("option", {name: "Kotak Mahindra Bank"}).click();
 
@@ -79,7 +80,7 @@ await this.page.getByRole('option', {
 }).click();
 // Click search icon
 await this. page.locator("#feeActIcons").click();
-await this.page.pause();
+//await this.page.pause();
 
 await this.page
   .locator("td.mat-column-ACCOUNTCURRENCY div[title='INR']")
