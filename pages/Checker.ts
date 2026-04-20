@@ -1,30 +1,48 @@
-import { Page } from "@playwright/test";
-
+import { Page, expect } from "@playwright/test";
+import { UIActions } from "../Utils/UiActions";
 
 export class Checker {
-  constructor(private page: Page) {}
+  private ui: UIActions;
 
-  async checker(referenceNumber:string) {
+  constructor(private page: Page) {
+    this.ui = new UIActions(page);
+  }
+
+  async checker(referenceNumber: string) {
+    // Menu navigation
+    await this.ui.waitForVisible('li.ui-menu-parent:has-text("Trade/ Forex") > a');
     await this.page.locator('li.ui-menu-parent:has-text("Trade/ Forex") > a').click();
 
-    await this.page.locator('li.ui-menu-parent:has-text("Trade/ Forex") a:has-text("Outward Remittance")').click();
+    await this.ui.waitForVisible(
+      'li.ui-menu-parent:has-text("Trade/ Forex") a:has-text("Outward Remittance")'
+    );
+    await this.page
+      .locator('li.ui-menu-parent:has-text("Trade/ Forex") a:has-text("Outward Remittance")')
+      .click();
 
-    await this.page.locator('#uaPendingApproval').click();
+    // Pending approval
+    await this.ui.clickButton('#uaPendingApproval');
 
-    await this.page.locator('#accordionHeaderId').click();
-    await this.page.locator('#refId').fill(referenceNumber);
-   
+    // Search accordion
+    await this.ui.clickButton('#accordionHeaderId');
+    await this.ui.fillInput('#refId', referenceNumber);
 
-//applyBtn
-await this.page.locator('#applyBtn').click();
-//FT26040000174760_APPROVE
-await this.page.locator(`img[alt='Authorise ${referenceNumber}']`).click();
-await this.page.locator('#approve').click();
-// Print Success message 
-const messageText = await this. page.locator("div.successMessage").first().innerText();
-console.log("Success message:", messageText);
-await this.page.waitForTimeout(2000);
-await this.page.pause();
+    // Apply
+    await this.ui.clickButton('#applyBtn');
 
+    // Authorise record
+    const approveIcon = `img[alt='Authorise ${referenceNumber}']`;
+    await this.ui.waitForVisible(approveIcon);
+    await this.page.locator(approveIcon).click();
+
+    // Approve
+    await this.ui.clickButton('#approve');
+
+    // Validate success message
+    const successMessage = this.page.locator('div.successMessage').first();
+    await expect(successMessage).toBeVisible();
+
+    const messageText = await successMessage.innerText();
+    console.log("Success message:", messageText);
   }
 }

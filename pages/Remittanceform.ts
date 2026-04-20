@@ -37,17 +37,10 @@ export class RemittanceFormPage {
   // Open the Country Providing dropdown
 await this. page.locator("p-dropdown#countryProviding >> div[role='button']").click();
 
-// Type in search
-//await this.page.getByLabel('Search').fill('Andorra');
-
-// Select AD – Andorra
-
 await this. page
   .locator("li[role='option']", { hasText: 'Andorra' })
   .click({ force: true })
 
-
-   //await this.page.getByLabel('Search').fill('Andorra');
     
    
 

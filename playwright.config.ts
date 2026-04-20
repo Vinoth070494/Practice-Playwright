@@ -47,7 +47,10 @@ use: {
     {
       
       name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
+      use: { 
+        browserName: 'chromium',
+        viewport: null
+      }
     },
 
     /* {
