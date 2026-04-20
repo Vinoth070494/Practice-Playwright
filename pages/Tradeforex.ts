@@ -1,15 +1,33 @@
-import { Page } from "@playwright/test";
+import { Page } from '@playwright/test';
+import { UIActions } from '../Utils/UiActions';
 
-export class TradeForex {
-  constructor(private page: Page) {}
+export class TradeForexPage {
+  private ui: UIActions;
+
+  constructor(private page: Page) {
+    this.ui = new UIActions(page);
+  }
 
   async openOutwardRemittance() {
-    await this.page.locator('li.ui-menu-parent:has-text("Trade/ Forex") > a').click();
+    // Click Trade / Forex main menu
+    await this.page
+      .locator('li.ui-menu-parent:has-text("Trade/ Forex") > a')
+      .click();
 
-    await this.page.locator('li.ui-menu-parent:has-text("Trade/ Forex") a:has-text("Outward Remittance")').click();
-    await this.page.waitForTimeout(2000);
+    // Click Outward Remittance submenu
+    await this.page
+      .locator(
+        'li.ui-menu-parent:has-text("Trade/ Forex") a:has-text("Outward Remittance")'
+      )
+      .click();
 
-    await this.page.getByRole("button", {name: "Outgoing Transfer"}).click();
+    // Wait for button instead of static timeout
+    await this.ui.waitForVisible(
+      'button:has-text("Outgoing Transfer")'
+    );
 
+    // Click Outgoing Transfer button
+    await this.ui.clickButton('Outgoing Transfer');
   }
 }
+``

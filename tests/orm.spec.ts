@@ -1,31 +1,43 @@
-import { test,expect } from "@playwright/test";
-import { Login } from "../pages/Login";
-import { TradeForex } from "../pages/Tradeforex";
-import { RemittanceForm } from "../pages/Remittanceform";
-import {Ftdeclare} from "../pages/Ftdeclare"
-import {Fileupload} from"../pages/Fileupload";
-import path from 'path';
-import{users} from'../testdata/users';
-import{Checker} from '../pages/Checker'
+import { test, expect } from '@playwright/test';
 
-test("1. login page", async ({ page }) => {
-  const login = new Login(page);
-  const tradeForex = new TradeForex(page);
-  const remittance = new RemittanceForm(page);
-  const ftdeclare=new Ftdeclare(page);
-  const fileupload=new Fileupload(page);
-  
-  const checker=new Checker(page);
-  
+import { LoginPage } from '../pages/Login';
+import { TradeForexPage } from '../pages/Tradeforex';
+import { RemittanceFormPage } from '../pages/Remittanceform';
+import { FtdeclarePage } from '../pages/Ftdeclare';
+import { FileUploadPage } from '../pages/Fileupload';
+import { Checker } from '../pages/Checker';
 
-  await login.login(users.maker.username,users.maker.password);
-  await tradeForex.openOutwardRemittance();
-  await remittance.fillForm();
-  await ftdeclare.checkbox();
-  const referenceNumber=await fileupload.Fileupload();
-  console.log("captured ref number:",referenceNumber);
-  await login.logout();
-   await login.login(users.checker.username,users.checker.password);
-   await checker.checker(referenceNumber);
-  await page.pause();
+
+import { users } from '../testdata/users';
+
+test('Maker to Checker outward remittance flow', async ({ page }) => {
+  test.setTimeout(60_000);
+  // Page Objects
+  const loginPage = new LoginPage(page);
+  const tradeForexPage = new TradeForexPage(page);
+  const remittanceFormPage = new RemittanceFormPage(page);
+  const ftDeclarePage = new FtdeclarePage(page);
+  const fileUploadPage = new FileUploadPage(page);
+  const checkerPage = new Checker(page);
+
+  // ===== MAKER FLOW =====
+  await loginPage.navigateToLoginPage();
+  await loginPage.login(users.maker.username, users.maker.password);
+
+  await tradeForexPage.openOutwardRemittance();
+  await remittanceFormPage.fillForm();
+  await ftDeclarePage.completeDeclaration();
+
+  const referenceNumber = await fileUploadPage.uploadDocument();
+  expect(referenceNumber).toBeTruthy();
+
+  console.log('Captured reference number:', referenceNumber);
+
+  await loginPage.logout();
+
+  // ===== CHECKER FLOW =====
+  await loginPage.navigateToLoginPage();
+  await loginPage.login(users.checker.username, users.checker.password);
+
+  await checkerPage.checker(referenceNumber as string);
 });

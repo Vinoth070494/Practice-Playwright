@@ -1,32 +1,38 @@
-import { Page } from "@playwright/test";
+import { Page } from '@playwright/test';
+import { UIActions } from '../Utils/UiActions';
 
+export class FtdeclarePage {
+  private ui: UIActions;
 
-export class Ftdeclare {
-  constructor(private page: Page) {}
-   async checkbox() {
-   // await this.page.locator('#acceptAll-input').check();
-  await this.page.locator('mat-checkbox#acceptAll').click();
+  constructor(private page: Page) {
+    this.ui = new UIActions(page);
+  }
 
-  await this.page.getByRole("button", {name: "Next"}).click();
-await this.page.waitForTimeout(2000)
+  async completeDeclaration() {
+    // Accept all declaration checkbox
+    await this.page.locator('mat-checkbox#acceptAll').click();
 
-//principalAccountGridButton
-//await this.page.locator('#principalAccountGridButton').click();
-await this. page.getByRole('button', { name: 'Principal Debit Account' }).click();
-//row-checkbox--1775556357957_0
-await this. page
-  .locator('mat-checkbox.table-body-checkbox label.mat-checkbox-layout')
-  .first()
-  .click();
+    // Click Next
+    await this.ui.clickButton('Next');
 
-await this. page.getByRole('button', { name: 'OK' }).click();
-await this.page.getByRole("button", {name: "Next"}).click();
+    // Wait until Principal Debit Account button is visible
+    await this.ui.waitForVisible(
+      'button:has-text("Principal Debit Account")'
+    );
 
+    // Open Principal Debit Account
+    await this.ui.clickButton('Principal Debit Account');
 
+    // Select first account row checkbox
+    await this.page
+      .locator('mat-checkbox.table-body-checkbox label.mat-checkbox-layout')
+      .first()
+      .click();
 
+    // Confirm selection
+    await this.ui.clickButton('OK');
 
-
-
-
-}  
+    // Final Next
+    await this.ui.clickButton('Next');
+  }
 }

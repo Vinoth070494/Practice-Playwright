@@ -1,20 +1,33 @@
-import { Page ,expect} from "@playwright/test";
+import { Page } from '@playwright/test';
+import { UIActions } from '../Utils/UiActions';
 
-export class Login {
-  constructor(private page: Page) {}
+export class LoginPage {
+  private ui: UIActions;
 
-  async login(username:string,password:string) {
-    await this.page.goto(
-      "https://fynuat.kotakuat.bank.in/customer/portal#/login"
-    );
-    await this.page.fill("#userName", username);
-    await this.page.getByRole("button", { name: "Next" }).click();
-    await this.page.fill("#credentialInputField", password);
-    await this.page.getByRole("button", { name: "Secure Login" }).click();
+  constructor(private page: Page) {
+    this.ui = new UIActions(page);
   }
 
-async logout() {
-await this.page.getByRole('img', { name: 'User Profile panel' }).click();
-   await this. page.getByRole('button', { name: 'Logout' }).click();
-}
+  async navigateToLoginPage() {
+    await this.page.goto(
+      'https://fynuat.kotakuat.bank.in/customer/portal#/login'
+    );
+  }
+
+  async login(username: string, password: string) {
+    await this.ui.fillInput('#userName', username);
+    await this.ui.clickButton('Next');
+
+    await this.ui.fillInput('#credentialInputField', password);
+    await this.ui.clickButton('Secure Login');
+  }
+
+  async logout() {
+    await this.page
+      .getByRole('img', { name: 'User Profile panel' })
+      .click();
+
+    await this.ui.clickButton('Logout');
+    await this.page.pause();
+  }
 }
