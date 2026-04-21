@@ -1,66 +1,108 @@
 import { Page, expect } from '@playwright/test';
-
+ 
 export class UIActions {
   constructor(private page: Page) {}
-
-  //  PrimeNG / Generic Dropdown
+ 
+  // ================= DROPDOWN =================
   async selectDropdown(dropdown: string, value: string) {
-    // Open dropdown
     await this.page.locator(dropdown).click();
-
-    // Wait for dropdown panel
+ 
     const panel = this.page.locator('.ui-dropdown-panel');
-    await panel.waitFor({ state: 'visible' });
-
-    // Find option safely
-    const option = panel
-      .locator("li")
-      .filter({ hasText: value });
-
-    // Ensure option is rendered
-    await expect(option).toBeVisible({ timeout: 10000 });
-
-    // Click option (PrimeNG overlay safe)
+ 
+    if (await panel.isVisible()) {
+      const option = panel.locator('li').filter({ hasText: value });
+ 
+      await expect(option).toBeVisible({ timeout: 10000 });
+      await option.click({ force: true });
+    } else {
+      // fallback (mat-select / normal select)
+      await this.page.getByRole('option', { name: value }).click();
+    }
+  }
+ 
+  // ================= CUSTOM DROPDOWN =================
+  async selectCustomDropdown(dropdown: string, value: string) {
+    await this.page.locator(dropdown).click();
+ 
+    const option = this.page.locator('li[role="option"]', {
+      hasText: value
+    });
+ 
+    await expect(option).toBeVisible();
     await option.click({ force: true });
   }
-
-  //  Input
+ 
+  // ================= INPUT =================
   async fillInput(locator: string, value: string) {
     const input = this.page.locator(locator);
     await expect(input).toBeVisible();
     await input.fill(value);
   }
-
-  //  Button
+ 
+  // ================= BUTTON =================
   async clickButton(name: string) {
     const button = this.page.getByRole('button', { name });
     await expect(button).toBeEnabled();
     await button.click();
   }
-
-  //  Checkbox
+ 
+  // ================= GENERIC CLICK =================
+  async clickByLocator(locator: string) {
+    const element = this.page.locator(locator);
+    await expect(element).toBeVisible();
+    await element.click();
+  }
+ 
+  // ================= CHECKBOX =================
   async clickCheckbox(locator: string) {
     const checkbox = this.page.locator(locator);
     await expect(checkbox).toBeVisible();
     await checkbox.click();
   }
+ 
+  // ================= RADIO =================
 
-  //  Generic wait
+async selectRadioByText(labelText: string) {
+  const radio = this.page.locator('[role="radio"]', {
+    hasText: labelText
+  });
+
+  await radio.waitFor({ state: 'visible' });
+}
+ 
+  // ================= WAIT =================
   async waitForVisible(locator: string) {
     await this.page.locator(locator).waitFor({ state: 'visible' });
   }
-  
-//  Radio button – select by label text
-async selectRadioByLabel(labelText: string) {
-  const radio = this.page.getByLabel(labelText, { exact: true });
-
-  // Wait until radio is visible & enabled
-  await radio.waitFor({ state: 'visible' });
-
-  // Avoid re‑checking if already selected
-  if (!(await radio.isChecked())) {
-    await radio.check();
+ 
+  // ================= FILE UPLOAD =================
+  async uploadFile(locator: string, filePath: string) {
+    await this.page.locator(locator).setInputFiles(filePath);
+  }
+ 
+  // ================= GET TEXT =================
+  async getText(locator: string): Promise<string> {
+    const element = this.page.locator(locator);
+    await element.waitFor({ state: 'visible' });
+    return (await element.textContent())?.trim() || '';
+  }
+ 
+  // ================= TABLE SELECTION =================
+  async selectFromTable(locator: string, value: string) {
+    const row = this.page
+      .locator(locator)
+      .filter({ hasText: value })
+      .first();
+ 
+    await expect(row).toBeVisible();
+    await row.click();
+  }
+ 
+  // ================= SELECT FIRST ROW =================
+  async selectFirstRow(locator: string) {
+    const row = this.page.locator(locator).first();
+    await expect(row).toBeVisible();
+    await row.click();
   }
 }
-
-}
+ 

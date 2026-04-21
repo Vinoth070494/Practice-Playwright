@@ -1,38 +1,39 @@
 import { Page } from '@playwright/test';
 import { UIActions } from '../Utils/UiActions';
-
+ 
 export class FtdeclarePage {
   private ui: UIActions;
-
+ 
   constructor(private page: Page) {
     this.ui = new UIActions(page);
   }
-
+ 
   async completeDeclaration() {
-    // Accept all declaration checkbox
-    await this.page.locator('mat-checkbox#acceptAll').click();
-
-    // Click Next
+ 
+    // ✅ Accept All Checkbox
+    await this.ui.clickByLocator('mat-checkbox#acceptAll');
+ 
+    // ✅ Next
     await this.ui.clickButton('Next');
-
-    // Wait until Principal Debit Account button is visible
+ 
+    // ✅ Wait for Principal Debit Account
     await this.ui.waitForVisible(
       'button:has-text("Principal Debit Account")'
     );
-
-    // Open Principal Debit Account
+ 
+    // ✅ Open Account Popup
     await this.ui.clickButton('Principal Debit Account');
-
-    // Select first account row checkbox
-    await this.page
-      .locator('mat-checkbox.table-body-checkbox label.mat-checkbox-layout')
-      .first()
-      .click();
-
-    // Confirm selection
+ 
+    // ✅ Select First Row (Reusable table method)
+    await this.ui.selectFirstRow(
+      'mat-checkbox.table-body-checkbox label.mat-checkbox-layout'
+    );
+ 
+    // ✅ Confirm
     await this.ui.clickButton('OK');
-
-    // Final Next
+ 
+    // ✅ Final Next
     await this.ui.clickButton('Next');
   }
 }
+ 

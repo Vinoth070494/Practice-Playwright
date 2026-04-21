@@ -2,99 +2,100 @@ import { Page } from '@playwright/test';
 import { UIActions } from '../Utils/UiActions';
 import { remittanceFieldData } from '../testdata/remitfielddata';
 import { entity } from '../testdata/locator';
-
+ 
 export class RemittanceFormPage {
   private ui: UIActions;
-
+ 
   constructor(private page: Page) {
     this.ui = new UIActions(page);
   }
-
+ 
   async fillForm() {
-    // Entity Bank Name
-    await this.page.locator('#entityBankName').click();
-    await this.page.getByRole('option', { name: entity.entity2 }).click();
-
-    // Remittance Type
-    await this.page.locator('#remittanceType').click();
-    await this.page.getByRole('option', { name: entity.Remittype }).click();
-
-    // Purpose Code
-    await this.page.locator('#purposeCodeIcons').click();
-    await this.page
-      .locator('td.mat-column-PURPOSECODE')
-      .filter({ hasText: entity.purcode })
-      .click();
-
-    // GST & Transport Document
-    await this.ui.fillInput('#gstinNumber', remittanceFieldData .gstNumber);
+ 
+    // ===== Entity Bank =====
+    await this.ui.selectDropdown('#entityBankName', entity.entity2);
+ 
+    // ===== Remittance Type =====
+    await this.ui.selectDropdown('#remittanceType', entity.remittanceType);
+ 
+    // ===== Purpose Code (Table Selection) =====
+    await this.ui.clickByLocator('#purposeCodeIcons');
+    await this.ui.selectFromTable(
+      'td.mat-column-PURPOSECODE',
+      entity.purposeCode
+    );
+ 
+    // ===== GST & Transport =====
+    await this.ui.fillInput('#gstinNumber', remittanceFieldData.gstNumber);
+ 
     await this.ui.fillInput(
       '#transDocNum',
-      remittanceFieldData .transportDocumentNumber
+      remittanceFieldData.transportDocumentNumber
     );
-
-    // Currency Dropdown (PrimeNG)
-  // Open the Country Providing dropdown
-await this. page.locator("p-dropdown#countryProviding >> div[role='button']").click();
-
-await this. page
-  .locator("li[role='option']", { hasText: 'Andorra' })
-  .click({ force: true })
-
-    
-   
-
-    // References
+ 
+    // ===== Country Dropdown (Custom UI) =====
+    await this.ui.selectCustomDropdown(
+      "p-dropdown#countryProviding >> div[role='button']",
+      entity.country
+    );
+ 
+    // ===== References =====
     await this.ui.fillInput(
       '#transfereeReference',
       remittanceFieldData.transactionReference
     );
+ 
     await this.ui.fillInput(
       '#customerReference',
       remittanceFieldData.customerReference
     );
+ 
+    // ===== Beneficiary =====
+    await this.ui.selectDropdown(
+      '#beneficiaryEntity',
+      entity.beneficiary
+    );
+ 
+    // ===== Radio Button =====
+    
 
-    // Beneficiary
-    await this.page.locator('#beneficiaryEntity').click();
-    await this.page.getByRole('option', {
-      name: 'Sonata Information Technology pvt l'
-    }).click();
+await this.page.locator(
+  'mat-radio-button:has-text("SHA - Only Bank charges to be paid by me")'
+).click();
+``
 
-    // Charges Radio Button
-    await this.page
-      .getByText('OUR - All charges to be paid by me')
-      .check();
+  
+  
 
-    // Transaction Currency
-    await this.page.locator('#currency').click();
-    await this.ui.waitForVisible('.ui-dropdown-panel');
-    await this.page
-      .locator('.ui-dropdown-panel li', { hasText: 'EUR' })
-      .click();
 
-    // Amount
-    await this.ui.fillInput('#amount', '1000');
 
-    // Forward Contract
-    await this.page.locator('#forwardContractText').click();
-    await this.page.getByRole('option', {
-      name: 'To be booked by bank'
-    }).click();
-
-    // Issuer Reference
-    await this.page.locator('#issuerReferenceList').click();
-    await this.page.getByRole('option', {
-      name: '6500073.ZONE1.0001.0958'
-    }).click();
-
-    // Fee Account
-    await this.page.locator('#feeActIcons').click();
-    await this.page
-      .locator("td.mat-column-ACCOUNTCURRENCY div[title='INR']")
-      .first()
-      .click();
-
-    // Next
+    // ===== Currency =====
+    await this.ui.selectDropdown('#currency', entity.currency);
+ 
+    // ===== Amount =====
+    await this.ui.fillInput('#amount', remittanceFieldData.amount);
+ 
+    // ===== Forward Contract =====
+    await this.ui.selectDropdown(
+      '#forwardContractText',
+      entity.forwardContract
+    );
+ 
+    // ===== Issuer Reference =====
+    await this.ui.selectDropdown(
+      '#issuerReferenceList',
+      entity.issuerReference
+    );
+ 
+    // ===== Fee Account (Table) =====
+    await this.ui.clickByLocator('#feeActIcons');
+    await this.ui.selectFromTable(
+      "td.mat-column-ACCOUNTCURRENCY div",
+      entity.accountCurrency
+    );
+ 
+    // ===== Next =====
     await this.ui.clickButton('Next');
   }
 }
+ 
