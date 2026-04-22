@@ -11,7 +11,7 @@ export const users = {
   },
  
   makerChecker: {
-    username: '105360435',
+    username: '105360870',
     password: process.env.CHECKER_PASSWORD || 'Quality@123',
     role: UserRole.MAKER_CHECKER
   }

@@ -56,19 +56,11 @@ export class RemittanceFormPage {
       entity.beneficiary
     );
  
-    // ===== Radio Button =====
-    
-
-await this.page.locator(
+// ===== Radio Button =====
+    await this.page.locator(
   'mat-radio-button:has-text("SHA - Only Bank charges to be paid by me")'
 ).click();
 ``
-
-  
-  
-
-
-
     // ===== Currency =====
     await this.ui.selectDropdown('#currency', entity.currency);
  

@@ -52,6 +52,8 @@ export class FileUploadPage {
 
  //uaPendingBankApproval
     return referenceNumber;
+
+  
   }
 }
  
