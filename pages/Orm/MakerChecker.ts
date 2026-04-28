@@ -1,5 +1,5 @@
 import { Page, expect } from '@playwright/test';
-import { UIActions } from '../Utils/UiActions';
+import { UIActions } from '../../Utils/UiActions';
 
 export class BankerPage {
   private ui: UIActions;

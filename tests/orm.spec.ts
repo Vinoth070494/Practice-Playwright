@@ -1,12 +1,12 @@
 import { test, expect } from '@playwright/test';
 
-import { LoginPage } from '../pages/Login';
-import { TradeForexPage } from '../pages/Tradeforex';
-import { RemittanceFormPage } from '../pages/Remittanceform';
-import { FtdeclarePage } from '../pages/Ftdeclare';
-import { FileUploadPage } from '../pages/Fileupload';
-import { Checker } from '../pages/Checker';
-import { BankerPage } from '../pages/MakerChecker';
+import { LoginPage } from '../pages/AuthLog/Login';
+import { TradeForexPage } from '../pages/Orm/Tradeforex';
+import { RemittanceFormPage } from '../pages/Orm/Remittanceform';
+import { FtdeclarePage } from '../pages/Orm/Ftdeclare';
+import { FileUploadPage } from '../pages/Orm/Fileupload';
+import { Checker } from '../pages/Orm/Checker';
+import { BankerPage } from '../pages/Orm/MakerChecker';
 import { users } from '../testdata/users';
 
 test('ORM flow based on user role (Maker vs Maker+Checker)', async ({ page }) => {

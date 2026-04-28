@@ -1,5 +1,5 @@
 import { Page } from '@playwright/test';
-import { UIActions } from '../Utils/UiActions';
+import { UIActions } from '../../Utils/UiActions';
  
 export class FtdeclarePage {
   private ui: UIActions;

@@ -1,7 +1,7 @@
 import { Page } from '@playwright/test';
-import { UIActions } from '../Utils/UiActions';
-import { remittanceFieldData } from '../testdata/remitfielddata';
-import { entity } from '../testdata/locator';
+import { UIActions } from '../../Utils/UiActions';
+import { remittanceFieldData } from '../../testdata/remitfielddata';
+import { entity } from '../../testdata/locator';
  
 export class RemittanceFormPage {
   private ui: UIActions;

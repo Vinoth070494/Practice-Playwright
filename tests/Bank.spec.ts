@@ -1,9 +1,9 @@
 import { test,expect} from "@playwright/test";
-import { LoginPage } from "../pages/Login";
+import { LoginPage } from "../pages/AuthLog/Login";
 import{users} from'../testdata/users';
-import { Bankguarantee } from "../pages/Bankguarantee";
-import {BankGuaranteePage} from "../pages/Bgform";
-import { UIActions } from "../Utils/UiActions";
+import { Bankguarantee } from "../pages/BGFolder/Bankguarantee";
+import {BankGuaranteePage} from "../pages/BGFolder/Bgform";
+
 
 
   // ===== USER SELECTION =====

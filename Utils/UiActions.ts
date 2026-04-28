@@ -15,7 +15,7 @@ export class UIActions {
       await expect(option).toBeVisible({ timeout: 10000 });
       await option.click({ force: true });
     } else {
-      // fallback (mat-select / normal select)
+      // fallback (mat-select / normal select) 
       await this.page.getByRole('option', { name: value }).click();
     }
   }
