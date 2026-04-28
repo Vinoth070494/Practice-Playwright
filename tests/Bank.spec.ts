@@ -2,25 +2,27 @@ import { test,expect} from "@playwright/test";
 import { LoginPage } from "../pages/Login";
 import{users} from'../testdata/users';
 import { Bankguarantee } from "../pages/Bankguarantee";
-import {bgform1} from "../pages/Bgform";
+import {BankGuaranteePage} from "../pages/Bgform";
+import { UIActions } from "../Utils/UiActions";
+
 
   // ===== USER SELECTION =====
-  //const user = users.makerChecker;
-   const user = users.makerOnly;
+    //const user = users.makerOnly;
+   const user = users.makerChecker;
 
 
 
 
 test("1. Bankguarantee", async ({ page }) => {
-  const login = new LoginPage(page);
+  const loginPage = new LoginPage(page);
   const bank=new Bankguarantee(page);
-  const form=new bgform1(page);
+  const form=new BankGuaranteePage(page);
 
-  await login.login(users.makerOnly.username,users.makerOnly.password);
+  await loginPage.navigateToLoginPage();
+  await loginPage.login(user.username, user.password);
   await bank.bankguarantee();
-  await form.form1();
-  await page.pause();
-
-
+  await form.fillBankGuaranteeForm();
+ // await page.pause();
 
 });
+ 

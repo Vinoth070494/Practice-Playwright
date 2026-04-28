@@ -9,6 +9,6 @@ export class Bankguarantee{
      await this.page.locator('li.ui-menu-parent:has-text("Trade/ Forex") a:has-text("Bank Guarantee")').click();
 await this.page.getByRole("button", {name: "Request Guarantee"}).click();
 
-    await this.page.waitForTimeout(2000);
+
   }
-};
+}; 

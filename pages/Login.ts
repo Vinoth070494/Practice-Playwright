@@ -30,8 +30,8 @@ export class LoginPage {
     await this.ui.clickButton('Secure Login');
  
     // Optional: wait for dashboard
-    await this.page.waitForLoadState('networkidle');
-  }
+    //await this.page.waitForLoadState('networkidle');
+  } 
  
   async logout() {
  
@@ -44,8 +44,8 @@ export class LoginPage {
     await this.ui.clickButton('Logout');
  
     // Wait for login screen again
-  /*   await this.page.locator('#userName').waitFor({
+     await this.page.locator('#userName').waitFor({
       state: 'visible'
-    }); */
+    }); 
   }
 }
