@@ -20,7 +20,7 @@ export const entity = {
   forwardContract: "To be booked by bank",
  
   // ===== ISSUER REFERENCE =====
-  issuerReference: "6500073.ZONE1.0001.0958",
+  issuerReference: "6500073.ZONE1.0001.0958", //6500073.ZONE1.0001.0958
  
   // ===== ACCOUNT =====
   accountCurrency: "INR"

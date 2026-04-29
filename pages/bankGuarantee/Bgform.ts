@@ -59,14 +59,18 @@ await this.page.getByLabel('Bank Guarantee Amount').fill('100000');
     // ================= Final Next =================
     await this.ui.clickByLocator('#next');
 
+    await this.page.waitForSelector;
+
     // ===== Open Browse =====
         await this.ui.clickByLocator('#browseButton');
      
         // ===== File Path =====
-        const filePath = path.resolve(
-          __dirname,
-          '../tests/Uploadfile/sampletest.pdf'
-        );
+       const filePath = path.join(
+         process.cwd(),
+         'tests',
+         'Uploadfile',
+         'sampletest.pdf'
+       );
      
         // ===== Upload File =====
         await this.ui.uploadFile(

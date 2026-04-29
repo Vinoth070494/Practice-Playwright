@@ -15,10 +15,19 @@ export class FileUploadPage {
     await this.ui.clickByLocator('#browseButton');
  
     // ===== File Path =====
-    const filePath = path.resolve(
-      __dirname,
-      '../tests/Uploadfile/sampletest.pdf'
-    );
+    //const filePath = path.resolve(
+     // __dirname,
+     /// '../tests/Uploadfile/sampletest.pdf'
+   // );
+   
+    // ===== File Path =====
+const filePath = path.join(
+  process.cwd(),
+  'tests',
+  'Uploadfile',
+  'sampletest.pdf'
+);
+
  
     // ===== Upload File =====
     await this.ui.uploadFile(

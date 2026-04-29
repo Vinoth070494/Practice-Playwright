@@ -49,6 +49,7 @@ export class RemittanceFormPage {
       '#customerReference',
       remittanceFieldData.customerReference
     );
+    await this.page.pause;
  
     // ===== Beneficiary =====
     await this.ui.selectDropdown(

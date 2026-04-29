@@ -1,6 +1,6 @@
 import { Page } from '@playwright/test';
 import { UIActions } from '../../Utils/UiActions';
-export class FileUploadPage {
+export class ReferenceNumber {
   private ui: UIActions;
  
   constructor(private page: Page) {
