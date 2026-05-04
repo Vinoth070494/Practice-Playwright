@@ -11,11 +11,11 @@ import { users } from '../testdata/users';
 
 test('ORM flow based on user role (Maker vs Maker+Checker)', async ({ page }) => {
 
-  test.setTimeout(30_000);
+  test.setTimeout(60_000);
 
   // ===== USER =====
-  const user = users.makerOnly;
-   //const user = users.makerChecker;
+  //const user = users.makerOnly;
+   const user = users.makerChecker;
 
   // ===== PAGE OBJECTS =====
   const loginPage = new LoginPage(page);
@@ -46,6 +46,7 @@ test('ORM flow based on user role (Maker vs Maker+Checker)', async ({ page }) =>
 
     // Logout maker
     await loginPage.logout();
+
     await loginPage.navigateToLoginPage();
 
     // Login as checker

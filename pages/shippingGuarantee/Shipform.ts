@@ -54,7 +54,7 @@ await this.page
 
     
 // Beneficiary Name (custom suggestion list)
-  await this.page.locator('#transBeneficiaryEntity').click();
+  await this.page.locator('#beneficiaryEntity').click();
 
   const beneficiaryOption = this.page
     .locator('div.optionStyle')

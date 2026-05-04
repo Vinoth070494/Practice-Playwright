@@ -104,5 +104,17 @@ async selectRadioByText(labelText: string) {
     await expect(row).toBeVisible();
     await row.click();
   }
+
+  
+ // ✅ reusable Next
+  async clickNext() {
+    await this.page.locator('#next').click();
+  }
+
+  // ✅ reusable Submit
+  async clickSubmit() {
+    await this.page.getByRole('button', { name: 'Submit' }).click();
+  }
+
 }
  
